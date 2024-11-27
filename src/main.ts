@@ -3,7 +3,7 @@ import "./style.css";
 const app = document.querySelector<HTMLDivElement>("#app");
 
 const gameBody = document.createElement("div");
-gameBody.classList.add("body-container");
+gameBody.classList.add("body-container", "container");
 
 const towers = document.createElement("div");
 towers.classList.add("towers-container");
@@ -16,7 +16,7 @@ for (let i = 0; i < k; ++i) {
 towers.append(...towerArray);
 
 const baseBlock = document.createElement("div");
-baseBlock.classList.add("base-block");
+baseBlock.classList.add("base-block","container");
 
 const disks = document.createElement("div");
 disks.classList.add("disks-container");
@@ -26,13 +26,16 @@ let diskGroup: HTMLDivElement;
 for (let i = 0; i < k; ++i, diskArray = []) {
 	diskGroup = document.createElement("div");
 	diskGroup.classList.add("disk-column-container");
-	for (let i = 0; i < n; ++i) {
+	for (let j = 0; j < n; ++j) {
 		diskArray.push(document.createElement("div"));
-		diskArray[i].classList.add("disk");
+		diskArray[j].classList.add("disk");
+		if (i==0) {
+			diskArray[j].classList.add("disk-"+String(j+1));
+		}
 	}
 	diskGroup.append(...diskArray);
 	disks.append(diskGroup);
 }
 
-gameBody.append(towers, disks, baseBlock);
-app?.replaceChildren(gameBody);
+gameBody.append(towers, disks);
+app?.replaceChildren(gameBody,baseBlock);
