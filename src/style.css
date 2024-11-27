@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-tower: rgb(220, 187, 81);
+  --color-disk-1: rgb(56, 194, 201);
+  --color-disk-2: rgb(209, 221, 40);
+  --color-disk-3: rgb(225, 66, 222);
+  --color-base: rgb(51, 40, 23);
+}
+
+.base-block {
+  background-color: var(--color-base);
+  height: 15%;
+  z-index: 2;
+}
+
+.body-container {
+  width: 600px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.disks-container {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  z-index: 2;
+}
+
+.towers-container {
+  position: relative;
+  padding-top: 120px;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around;
+  z-index: 1;
+}
+
+.tower {
+  height: 100%;
+  width: 20px;
+  background-color: var(--color-tower);
+  z-index: inherit;
+  position: inherit;
+
+  &::after {
+    content: "";
+  }
+}
+
+.disk-column-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+  z-index: inherit;
+  position: inherit;
+}
+
+.disk {
+  border: 2px solid black;
+  z-index: inherit;
+  position: inherit;
+}
+
+.disk-1 {
+  width: 50%;
+}
+
+.disk-2 {
+  width: 75%;
+}
+
+.disk-3 {
+  width: 100%;
+}
+
+.blank {
+  visibility: hidden;
+}
