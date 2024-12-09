@@ -14,7 +14,7 @@
 
 .base-block {
   background-color: var(--color-base);
-  height: 200px;
+  height: 100px;
   z-index: 1;
 }
 
@@ -22,11 +22,8 @@
   width: 100%;
   height: 400px;
   margin: 0 auto;
-}
-
-.body-container {
-  display: block;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .game-body {
@@ -58,7 +55,6 @@
 
 .disks-container {
   --gap-size: 20px;
-  padding-top: 200px;
   padding-inline: calc(var(--gap-size)/2);
   width: 100%;
   height: 100%;
@@ -72,8 +68,10 @@
 }
 
 .disk-column-container {
+  /* padding-top: 200px; */
   height: 100%;
   display: flex;
+  /* flex-shrink: 1; */
   flex-grow: 1;
   flex-direction: column;
   justify-content: end;
@@ -81,26 +79,42 @@
 }
 
 .disk {
-  /* border: 2px solid black; */
   z-index: inherit;
-  flex-grow: 1;
+  height: 30px;
 }
 
-.disk-1 {
+.disk-1,
+.disk-1-target {
   width: 50%;
   background: teal;
 }
 
-.disk-2 {
+.disk-2,
+.disk-2-target {
   width: 75%;
   background: yellow;
 }
 
-.disk-3 {
+.disk-3,
+.disk-3-target {
   width: 100%;
   background: orangered;
 }
 
+.disk-1-target,
+.disk-2-target,
+.disk-3-target {
+  opacity: 0.4;
+}
+
 .blank {
   visibility: hidden;
+}
+
+[draggable=true] {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
