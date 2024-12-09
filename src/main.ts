@@ -20,7 +20,7 @@ for (let i = 0; i < k; ++i) {
 towers.append(...towerArray);
 
 const baseBlock = document.createElement("div");
-baseBlock.classList.add("base-block");
+baseBlock.classList.add("base-block", "container");
 
 const disks = document.createElement("div");
 disks.classList.add("disks-container");
