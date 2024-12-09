@@ -22,8 +22,8 @@ export function addDisks(
 	}
 }
 
+// TODO: when disk is dropped onto non-dropzone areas, it should return to its place prior to dragging
 let draggedElement: HTMLDivElement;
-
 export function diskOnDrag(ev: DragEvent) {
 	draggedElement = ev.currentTarget as HTMLDivElement;
 	draggedElement.classList.replace(
