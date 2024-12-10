@@ -1,8 +1,3 @@
-export function moveDisk(
-	disksRootContainer: HTMLDivElement,
-	columnIndex: number
-) {}
-
 export function addDisks(
 	group: HTMLDivElement,
 	qty: number,
@@ -26,10 +21,6 @@ export function addDisks(
 let draggedElement: HTMLDivElement;
 export function diskOnDrag(ev: DragEvent) {
 	draggedElement = ev.currentTarget as HTMLDivElement;
-	draggedElement.classList.replace(
-		`disk-${draggedElement.dataset.diskType}`,
-		`disk-${draggedElement.dataset.diskType}-target`
-	);
 	if (ev.dataTransfer) {
 		ev.dataTransfer.dropEffect = "move";
 		ev.dataTransfer.effectAllowed = "move";
@@ -38,41 +29,48 @@ export function diskOnDrag(ev: DragEvent) {
 
 export function dragZoneOnDrop(ev: DragEvent) {
 	ev.preventDefault();
-	const html = ev.currentTarget as HTMLDivElement;
-	const disk = html.firstElementChild as HTMLDivElement;
-	disk.classList.replace(
-		`disk-${draggedElement.dataset.diskType}-target`,
-		`disk-${draggedElement.dataset.diskType}`
+	const dropZone = ev.currentTarget as HTMLDivElement;
+	removeHighlight(dropZone);
+	if (draggedElement.nextElementSibling) {
+		const sib = draggedElement.nextElementSibling as HTMLDivElement;
+		sib.draggable = true;
+		sib.addEventListener("dragstart", diskOnDrag);
+	}
+	dropZone.insertBefore(
+		draggedElement,
+		dropZone.firstElementChild!.nextElementSibling
 	);
-	draggedElement.draggable = false;
-	disk.draggable = true;
-	disk.dataset.diskType = draggedElement.dataset.diskType;
-	draggedElement.dataset.diskType = "";
-	disk.addEventListener("dragstart", diskOnDrag);
+	if (draggedElement.nextElementSibling)
+		(draggedElement.nextElementSibling as HTMLDivElement).draggable = false;
 }
 
 export function highlightDragTarget(ev: DragEvent) {
 	ev.preventDefault();
-	const html = ev.currentTarget as HTMLDivElement;
-	if (!html.firstElementChild?.classList.contains("blank")) {
+	const dragZone = ev.currentTarget as HTMLDivElement;
+	if (!dragZone.firstElementChild?.classList.contains("blank")) {
 		return;
 	}
 	const type = draggedElement.dataset.diskType;
-	if (type) {
-		html.firstElementChild?.classList.replace(
+	if (type && !draggedElement.parentElement?.isEqualNode(dragZone)) {
+		dragZone.firstElementChild?.classList.replace(
 			"blank",
 			`disk-${type}-target`
 		);
 	}
 }
 
-export function removeHighlight(ev: DragEvent) {
+export function onDragLeave(ev: DragEvent) {
 	ev.preventDefault();
-	const html = ev.currentTarget as HTMLDivElement;
-	if (html.firstElementChild?.classList.contains("blank")) return;
+	const dropZone = ev.currentTarget as HTMLDivElement;
+	removeHighlight(dropZone);
+}
+
+// NOTE: the highlight element should always be the first child of the disk column
+export function removeHighlight(dropZone: HTMLDivElement) {
+	if (dropZone.firstElementChild?.classList.contains("blank")) return;
 	const type = draggedElement.dataset.diskType;
 	if (type) {
-		html.firstElementChild?.classList.replace(
+		dropZone.firstElementChild?.classList.replace(
 			`disk-${type}-target`,
 			"blank"
 		);

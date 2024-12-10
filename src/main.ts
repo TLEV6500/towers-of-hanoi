@@ -3,7 +3,7 @@ import {
 	diskOnDrag,
 	dragZoneOnDrop,
 	highlightDragTarget,
-	removeHighlight,
+	onDragLeave,
 } from "./game";
 import "./style.css";
 
@@ -38,14 +38,16 @@ for (let i = 0; i < k; ++i) {
 	group.classList.add("disk-column-container");
 	group.addEventListener("dragover", highlightDragTarget);
 	group.addEventListener("drop", dragZoneOnDrop);
-	group.addEventListener("dragleave", removeHighlight);
-	addDisks(group, i == 0 ? diskCount : 1, i == 0);
+	group.addEventListener("dragleave", onDragLeave);
+	addDisks(group, 1, false);
+	if (i == 0) addDisks(group, diskCount, true);
 	diskGroups.push(group);
 }
 
 group = diskGroups[0];
-group.dataset.active = "true";
-(group.firstElementChild as HTMLDivElement).draggable = true;
+group.dataset.starting = "true";
+(group.firstElementChild?.nextElementSibling as HTMLDivElement).draggable =
+	true;
 
 disks.append(...diskGroups);
 body.append(towers, disks);
